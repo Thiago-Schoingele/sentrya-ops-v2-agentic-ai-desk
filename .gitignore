@@ -1,0 +1,126 @@
+﻿# =========================
+# ENVIRONMENT VARIABLES / VARIÁVEIS DE AMBIENTE
+# =========================
+
+.env
+.env.local
+.env.*.local
+!.env.example
+
+
+# =========================
+# PYTHON VIRTUAL ENVIRONMENT / AMBIENTE VIRTUAL PYTHON
+# =========================
+
+.venv/
+venv/
+env/
+ENV/
+
+
+# =========================
+# PYTHON CACHE / CACHE PYTHON
+# =========================
+
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+
+# =========================
+# JUPYTER / NOTEBOOKS TEMP FILES
+# =========================
+
+.ipynb_checkpoints/
+
+
+# =========================
+# LANGSMITH / MONITORING OUTPUTS
+# =========================
+
+docs/outputs/
+*.trace
+*.traces
+
+
+# =========================
+# LOGS / LOGS
+# =========================
+
+*.log
+logs/
+debug.log
+
+
+# =========================
+# TEMPORARY FILES / ARQUIVOS TEMPORÁRIOS
+# =========================
+
+*.tmp
+*.temp
+tmp/
+temp/
+
+
+# =========================
+# OPERATING SYSTEM FILES / ARQUIVOS DO SISTEMA
+# =========================
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+
+# =========================
+# IDE / EDITOR FILES
+# =========================
+
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+
+
+# =========================
+# SECURITY / SECRETS / CREDENTIALS
+# =========================
+
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+credentials.json
+token.json
+secrets.json
+service-account.json
+google-credentials.json
+
+
+# =========================
+# LOCAL DATABASES / BANCOS LOCAIS
+# =========================
+
+*.db
+*.sqlite
+*.sqlite3
+
+
+# =========================
+# BUILD / DIST
+# =========================
+
+build/
+dist/
+*.egg-info/
+
+# =========================
+# Runtime security state / Estado de segurança gerado em runtime
+
+data/security_state.json
+data/security_events.jsonl
+# Local development and debug scripts / Scripts locais de desenvolvimento e debug
+scripts/dev/
