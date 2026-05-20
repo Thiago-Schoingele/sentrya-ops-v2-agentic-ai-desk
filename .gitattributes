@@ -1,0 +1,14 @@
+# GitHub Linguist language statistics / Estatísticas de linguagem do GitHub Linguist
+
+# Treat Jupyter notebooks as documentation so they do not dominate repository language stats.
+# Trata notebooks Jupyter como documentação para que eles não dominem as estatísticas de linguagem.
+*.ipynb linguist-documentation
+
+# Keep Python source files detectable.
+# Mantém arquivos Python detectáveis.
+*.py linguist-detectable=true
+
+# Keep TypeScript/React dashboard files detectable.
+# Mantém arquivos TypeScript/React do dashboard detectáveis.
+*.ts linguist-detectable=true
+*.tsx linguist-detectable=true
