@@ -8,6 +8,12 @@ from src.config import TELEGRAM_BOT_TOKEN, TELEGRAM_ALLOWED_CHAT_ID, validate_en
 from src.sentrya_agent import run_sentrya_agent
 from src.auth import require_operator_auth
 from src.language_router import detect_user_language
+from src.llm_roles import (
+    detect_capability_answer_language,
+    format_capability_answer,
+    format_llm_roles_for_telegram,
+    is_llm_capability_question,
+)
 from src.security_admin import (
     execute_security_admin_command,
     format_security_admin_result_for_telegram,
@@ -143,6 +149,20 @@ async def handle_complete_monitoring_command(
     # Complete released monitoring if expired / Finaliza monitoramento pós-liberação se expirado
     await handle_security_admin_command(update, context, "complete_monitoring")
 
+
+async def handle_test_llms_command(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE,
+) -> None:
+    # Show LLM role registry / Mostra o registro de funções dos LLMs
+    chat_id = update.effective_chat.id
+
+    if not is_allowed_chat(chat_id):
+        await update.message.reply_text("Acesso negado. Este chat não está autorizado a consultar o Sentrya Ops V2.")
+        return
+
+    await update.message.reply_text(format_llm_roles_for_telegram())
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Handle /start command / Processa o comando /start
     chat_id = update.effective_chat.id
@@ -216,6 +236,14 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Acesso não autorizado.")
         return
 
+    if is_llm_capability_question(user_text):
+        capability_language = detect_capability_answer_language(
+            user_text=user_text,
+            detected_language=result_language,
+        )
+        await update.message.reply_text(format_capability_answer(capability_language))
+        return
+
     await update.message.reply_text("Recebi sua solicitação. Processando com o Sentrya Ops V2...")
 
     try:
@@ -258,6 +286,7 @@ def main():
     app.add_handler(CommandHandler("start_recovery_validation", handle_start_recovery_validation_command))
     app.add_handler(CommandHandler("force_release", handle_force_release_command))
     app.add_handler(CommandHandler("complete_monitoring", handle_complete_monitoring_command))
+    app.add_handler(CommandHandler("teste_llms", handle_test_llms_command))
 
     # Internal test command / Comando interno de teste
     app.add_handler(CommandHandler("test_agent", test_agent))
