@@ -1,5 +1,6 @@
 # Sentrya Ops V2 — Agentic AI Operations Desk
 
+[![CI](https://github.com/Thiago-Schoingele/sentrya-ops-v2-agentic-ai-desk/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Thiago-Schoingele/sentrya-ops-v2-agentic-ai-desk/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=flat-square&logo=python&logoColor=white)
 ![LangGraph](https://img.shields.io/badge/LangGraph-Agentic%20Workflows-1f2937?style=flat-square)
 ![LangChain](https://img.shields.io/badge/LangChain-Orchestration-1f2937?style=flat-square)
