@@ -1,0 +1,77 @@
+﻿name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  python-tests:
+    name: Python tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Run Python unit tests
+        run: python -m unittest discover -s tests -p "test_*.py" -v
+
+  dashboard:
+    name: Dashboard build and audit
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dashboard
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+
+      - name: Install dashboard dependencies
+        run: npm ci
+
+      - name: Build dashboard
+        run: npm run build
+
+      - name: Audit dashboard dependencies
+        run: npm audit
+
+  sensitive-files:
+    name: Sensitive files check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Ensure sensitive and generated files are not tracked
+        shell: bash
+        run: |
+          forbidden_files=$(git ls-files | grep -E '(^\.env$|^\.venv/|(^|/)node_modules/|(^|/)\.next/|^data/security_state\.json$|^data/security_events\.jsonl$|(^|/)__pycache__/|\.pyc$|(^|/)package\.backup\.json$|(^|/)tsconfig\.tsbuildinfo$)' || true)
+
+          if [ -n "$forbidden_files" ]; then
+            echo "Forbidden tracked files found:"
+            echo "$forbidden_files"
+            exit 1
+          fi
+
+          echo "No forbidden sensitive or generated files are tracked."
