@@ -1,0 +1,7 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "sentrya_ops": "./src/sentrya_graph_studio.py:agent"
+  },
+  "env": ".env"
+}
